@@ -21,10 +21,10 @@ public class MainActivity extends ActionBarActivity {
     private ListView lt;
     private TextView entNum;
     private TextView avgLen;
+    private double average;
     private String newWord;
     private ArrayAdapter arrayAdapter;
     private ArrayList<String> list = new ArrayList<>();
-    // HashSet <String> words = new HashSet<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,13 +75,27 @@ public class MainActivity extends ActionBarActivity {
                 int number = list.size();
                 entNum.setText("Number of Entries: " + number);
 
-                avgLen.setText("Average length: ");
-
-
+                //calls custom method
+                avgLength();
+                avgLen.setText("Average length: " + average);
             }
         });
+    }
 
+    //Custom method
+    public void avgLength()
+    {
+        int words = 0;
 
+        //get length of each word in list
+        for (String word : list)
+        {
+            words += word.length();
+        }
+
+        //double makes int float
+        average = (double) words/list.size();
+       // System.out.println("This method has been called " + average);
     }
 
 }
