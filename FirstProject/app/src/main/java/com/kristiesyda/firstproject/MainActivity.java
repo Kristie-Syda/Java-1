@@ -49,8 +49,11 @@ public class MainActivity extends ActionBarActivity {
                 if(!list.contains(words)){
                     list.add(newWord);
                 }
-
+                
                 arrayAdapter.notifyDataSetChanged();
+
+                //clears field when button is clicked
+                et.setText("");
 
             }
         });
