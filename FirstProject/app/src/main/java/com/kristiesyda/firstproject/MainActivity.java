@@ -54,9 +54,16 @@ public class MainActivity extends ActionBarActivity {
                 String words = et.getText().toString();
                 newWord = et.getText().toString();
 
-                //add the new word if not already there
-                if (!list.contains(words)) {
-                    list.add(newWord);
+                //no blank entries in list
+                if (words.isEmpty()== false)
+                {
+                    //add the new word if not already there
+                    if (!list.contains(words)) {
+                        list.add(newWord);
+                    }
+                }
+                else {
+                    //do nothing .. maybe add alert
                 }
 
                 arrayAdapter.notifyDataSetChanged();
