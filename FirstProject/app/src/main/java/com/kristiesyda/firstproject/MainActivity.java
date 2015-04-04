@@ -16,12 +16,16 @@ import java.util.HashSet;
 
 
 public class MainActivity extends ActionBarActivity {
+
     private EditText et;
     private ListView lt;
+    private TextView entNum;
+    private TextView avgLen;
     private String newWord;
     private ArrayAdapter arrayAdapter;
     private ArrayList<String> list = new ArrayList<>();
-   // HashSet <String> words = new HashSet<>();
+    // HashSet <String> words = new HashSet<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,11 +35,16 @@ public class MainActivity extends ActionBarActivity {
         final EditText et = (EditText) findViewById(R.id.mainEdit);
         //listView
         final ListView lt = (ListView) findViewById(R.id.mainList);
+        //Number of Entries
+        final TextView entNum = (TextView) findViewById(R.id.entriesNum);
+        //average length of entries
+        final TextView avgLen = (TextView) findViewById(R.id.avgLen);
 
         //adaptor
         arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, list);
         lt.setAdapter(arrayAdapter);
 
+        //button
         Button Btn = (Button) findViewById(R.id.mainButton);
 
         Btn.setOnClickListener(new View.OnClickListener() {
@@ -46,21 +55,24 @@ public class MainActivity extends ActionBarActivity {
                 newWord = et.getText().toString();
 
                 //add the new word if not already there
-                if(!list.contains(words)){
+                if (!list.contains(words)) {
                     list.add(newWord);
                 }
-                
+
                 arrayAdapter.notifyDataSetChanged();
 
                 //clears field when button is clicked
                 et.setText("");
 
+                //get number of entries
+                int number = list.size();
+                entNum.setText("Number of Entries: " + number);
+
+                avgLen.setText("Average length: ");
+
+
             }
         });
-
-
-
-
 
 
     }

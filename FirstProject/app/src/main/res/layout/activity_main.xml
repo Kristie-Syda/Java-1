@@ -21,11 +21,21 @@
         android:layout_height="wrap_content"
         android:text="@string/submint" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:id="@+id/entriesNum"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/avgLen"/>
+
     <ListView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/mainList"/>
-
-
+        android:id="@+id/mainList"
+        android:layout_marginTop="10dp"/>
 
 </LinearLayout>
