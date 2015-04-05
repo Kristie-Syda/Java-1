@@ -1,11 +1,11 @@
 package com.kristiesyda.firstproject;
 
+import android.app.AlertDialog;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-//import android.widget.AdapterView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -13,12 +13,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Toast;
-
 import java.util.ArrayList;
-
-
-
 
 
 public class MainActivity extends ActionBarActivity {
@@ -84,26 +79,24 @@ public class MainActivity extends ActionBarActivity {
                 //calls custom method
                 avgLength();
                 avgLen.setText("Average length: " + average);
-
-
             }
         });
 
+        //Alert box
         lt.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                //get word on list
                 String index = (String) lt.getItemAtPosition(position);
-                System.out.println(index);
+
+                //Alert builder
+                AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+                alert.setTitle("Alert");
+                alert.setMessage("You selected " + index);
+                alert.setPositiveButton("Okay",null);
+                alert.show();
             }
         });
-
-
-
-
-
-
-
     }
 
     //Custom method
@@ -119,7 +112,5 @@ public class MainActivity extends ActionBarActivity {
 
         //double makes int float
         average = (double) words/list.size();
-       // System.out.println("This method has been called " + average);
     }
-
 }
