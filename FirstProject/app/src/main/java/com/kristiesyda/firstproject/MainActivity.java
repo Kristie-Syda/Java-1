@@ -5,14 +5,20 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+//import android.widget.AdapterView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+
+
+
 
 
 public class MainActivity extends ActionBarActivity {
@@ -22,7 +28,6 @@ public class MainActivity extends ActionBarActivity {
     private TextView entNum;
     private TextView avgLen;
     private double average;
-    private String newWord;
     private ArrayAdapter arrayAdapter;
     private ArrayList<String> list = new ArrayList<>();
 
@@ -30,6 +35,8 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+     //////Figure out why these say final??????????
 
         //edit text
         final EditText et = (EditText) findViewById(R.id.mainEdit);
@@ -51,14 +58,13 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 // words from textField
-                String words = et.getText().toString();
-                newWord = et.getText().toString();
+                String newWord = et.getText().toString();
 
                 //no blank entries in list
-                if (words.isEmpty()== false)
+                if (newWord.isEmpty()== false)
                 {
                     //add the new word if not already there
-                    if (!list.contains(words)) {
+                    if (!list.contains(newWord)) {
                         list.add(newWord);
                     }
                 }
@@ -78,8 +84,26 @@ public class MainActivity extends ActionBarActivity {
                 //calls custom method
                 avgLength();
                 avgLen.setText("Average length: " + average);
+
+
             }
         });
+
+        lt.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                String index = (String) lt.getItemAtPosition(position);
+                System.out.println(index);
+            }
+        });
+
+
+
+
+
+
+
     }
 
     //Custom method
