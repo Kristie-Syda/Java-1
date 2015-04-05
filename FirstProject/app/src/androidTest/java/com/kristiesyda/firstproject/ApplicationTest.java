@@ -1,3 +1,4 @@
+//Kristie syda
 package com.kristiesyda.firstproject;
 
 import android.app.Application;

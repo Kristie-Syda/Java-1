@@ -13,7 +13,8 @@
         android:id="@+id/mainEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter Word"/>
+        android:hint="Enter Word"
+        android:digits="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"/>
 
     <Button
         android:id="@+id/mainButton"

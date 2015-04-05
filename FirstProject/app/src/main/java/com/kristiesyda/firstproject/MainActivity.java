@@ -1,3 +1,4 @@
+//Kristie syda
 package com.kristiesyda.firstproject;
 
 import android.app.AlertDialog;
@@ -31,8 +32,6 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-     //////Figure out why these say final??????????
-
         //edit text
         final EditText et = (EditText) findViewById(R.id.mainEdit);
         //listView
@@ -62,23 +61,27 @@ public class MainActivity extends ActionBarActivity {
                     if (!list.contains(newWord)) {
                         list.add(newWord);
                     }
+                    arrayAdapter.notifyDataSetChanged();
+
+                    //clears field when button is clicked
+                    et.setText("");
+
+                    //get number of entries
+                    int number = list.size();
+                    entNum.setText("Number of Entries: " + number);
+
+                    //calls custom method
+                    avgLength();
+                    avgLen.setText("Average length: " + average);
                 }
-                else {
-                    //do nothing .. maybe add alert
+                else
+                {
+                    AlertDialog.Builder emptyAlert = new AlertDialog.Builder(MainActivity.this);
+                    emptyAlert.setTitle("Alert");
+                    emptyAlert.setMessage("Please add a word");
+                    emptyAlert.setPositiveButton("Okay",null);
+                    emptyAlert.show();
                 }
-
-                arrayAdapter.notifyDataSetChanged();
-
-                //clears field when button is clicked
-                et.setText("");
-
-                //get number of entries
-                int number = list.size();
-                entNum.setText("Number of Entries: " + number);
-
-                //calls custom method
-                avgLength();
-                avgLen.setText("Average length: " + average);
             }
         });
 
