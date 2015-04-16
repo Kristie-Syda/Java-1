@@ -2,6 +2,8 @@
 package com.kristiesyda.firstproject;
 
 import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,6 +16,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 
 
@@ -26,6 +30,8 @@ public class MainActivity extends ActionBarActivity {
     private double average;
     private ArrayAdapter arrayAdapter;
     private ArrayList<String> list = new ArrayList<>();
+    private int number;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +46,14 @@ public class MainActivity extends ActionBarActivity {
         final TextView entNum = (TextView) findViewById(R.id.entriesNum);
         //average length of entries
         final TextView avgLen = (TextView) findViewById(R.id.avgLen);
+
+        //set initial number
+        number = 0;
+        entNum.setText("Number of Entries: " + number);
+
+        //set initial average
+        average = 0;
+        avgLen.setText("Average length: " + average);
 
         //adaptor
         arrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, list);
@@ -60,6 +74,15 @@ public class MainActivity extends ActionBarActivity {
                     //add the new word if not already there
                     if (!list.contains(newWord)) {
                         list.add(newWord);
+
+                        //toast
+                        //Toast
+                        Context context = getApplicationContext();
+                        CharSequence text = newWord + " was added.";
+                        int duration = Toast.LENGTH_SHORT;
+
+                        Toast toast = Toast.makeText(context, text, duration);
+                        toast.show();
                     }
                     arrayAdapter.notifyDataSetChanged();
 
@@ -67,7 +90,7 @@ public class MainActivity extends ActionBarActivity {
                     et.setText("");
 
                     //get number of entries
-                    int number = list.size();
+                    number = list.size();
                     entNum.setText("Number of Entries: " + number);
 
                     //calls custom method
@@ -90,13 +113,45 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //get word on list
-                String index = (String) lt.getItemAtPosition(position);
+                final String index = (String) lt.getItemAtPosition(position);
 
                 //Alert builder
                 AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
                 alert.setTitle("Alert");
                 alert.setMessage("You selected " + index);
                 alert.setPositiveButton("Okay",null);
+
+                //removing words from list
+                alert.setNegativeButton("Remove",new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        list.remove(index);
+                        arrayAdapter.notifyDataSetChanged();
+
+                        //get number of entries
+                        number = list.size();
+                        entNum.setText("Number of Entries: " + number);
+
+                        //calls custom method
+                        avgLength();
+
+                        //check to make sure average is not NaN
+                        if(Double.isNaN(average)){
+                            avgLen.setText("Average length: 0.0");
+                        }
+                        else{
+                            avgLen.setText("Average length: " + average);
+                        }
+
+                       //Toast
+                        Context context = getApplicationContext();
+                        CharSequence text = index + " was removed.";
+                        int duration = Toast.LENGTH_SHORT;
+
+                        Toast toast = Toast.makeText(context, text, duration);
+                        toast.show();
+                    }
+                });
                 alert.show();
             }
         });
