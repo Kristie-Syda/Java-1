@@ -1,4 +1,4 @@
-//Kristie syda
+//Kristie Syda
 package com.kristiesyda.firstproject;
 
 import android.app.AlertDialog;
@@ -69,13 +69,11 @@ public class MainActivity extends ActionBarActivity {
                 String newWord = et.getText().toString();
 
                 //no blank entries in list
-                if (newWord.isEmpty()== false)
-                {
+                if (newWord.isEmpty() == false) {
                     //add the new word if not already there
                     if (!list.contains(newWord)) {
                         list.add(newWord);
 
-                        //toast
                         //Toast
                         Context context = getApplicationContext();
                         CharSequence text = newWord + " was added.";
@@ -83,6 +81,12 @@ public class MainActivity extends ActionBarActivity {
 
                         Toast toast = Toast.makeText(context, text, duration);
                         toast.show();
+                    } else if (list.contains(newWord)) {
+                        AlertDialog.Builder emptyAlert = new AlertDialog.Builder(MainActivity.this);
+                        emptyAlert.setTitle("Alert");
+                        emptyAlert.setMessage(newWord + " already exists");
+                        emptyAlert.setPositiveButton("Okay", null);
+                        emptyAlert.show();
                     }
                     arrayAdapter.notifyDataSetChanged();
 
@@ -96,13 +100,11 @@ public class MainActivity extends ActionBarActivity {
                     //calls custom method
                     avgLength();
                     avgLen.setText("Average length: " + average);
-                }
-                else
-                {
+                } else {
                     AlertDialog.Builder emptyAlert = new AlertDialog.Builder(MainActivity.this);
                     emptyAlert.setTitle("Alert");
                     emptyAlert.setMessage("Please add a word");
-                    emptyAlert.setPositiveButton("Okay",null);
+                    emptyAlert.setPositiveButton("Okay", null);
                     emptyAlert.show();
                 }
             }
@@ -119,10 +121,10 @@ public class MainActivity extends ActionBarActivity {
                 AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
                 alert.setTitle("Alert");
                 alert.setMessage("You selected " + index);
-                alert.setPositiveButton("Okay",null);
+                alert.setPositiveButton("Okay", null);
 
                 //removing words from list
-                alert.setNegativeButton("Remove",new DialogInterface.OnClickListener() {
+                alert.setNegativeButton("Remove", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         list.remove(index);
@@ -136,14 +138,13 @@ public class MainActivity extends ActionBarActivity {
                         avgLength();
 
                         //check to make sure average is not NaN
-                        if(Double.isNaN(average)){
+                        if (Double.isNaN(average)) {
                             avgLen.setText("Average length: 0.0");
-                        }
-                        else{
+                        } else {
                             avgLen.setText("Average length: " + average);
                         }
 
-                       //Toast
+                        //Toast
                         Context context = getApplicationContext();
                         CharSequence text = index + " was removed.";
                         int duration = Toast.LENGTH_SHORT;
@@ -158,17 +159,15 @@ public class MainActivity extends ActionBarActivity {
     }
 
     //Custom method
-    public void avgLength()
-    {
+    public void avgLength() {
         int words = 0;
 
         //get length of each word in list
-        for (String word : list)
-        {
+        for (String word : list) {
             words += word.length();
         }
 
         //double makes int float
-        average = (double) words/list.size();
+        average = (double) words / list.size();
     }
 }
