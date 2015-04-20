@@ -3,14 +3,13 @@ package com.kristiesyda.advancedviews;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.SimpleAdapter;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 
 import java.util.HashMap;
@@ -18,16 +17,17 @@ import java.util.HashMap;
 
 public class MainActivity extends ActionBarActivity {
 
-    //Intialize HashMap
+    // HashMap
     public HashMap<Integer, Characters> charInfo = new HashMap<Integer, Characters>();
 
+    //variables
     Spinner spinner;
 
     //custom adapter to feed spinner
     public class CustomAdapter extends BaseAdapter {
-        private Integer[] index;
+
         public CustomAdapter(HashMap<Integer, Characters> charInfo) {
-            index = charInfo.keySet().toArray(new Integer[charInfo.size()]);
+
         }
 
         @Override
@@ -38,7 +38,7 @@ public class MainActivity extends ActionBarActivity {
         @Override
         public Object getItem(int _position) {
 
-            return charInfo.get(index[_position]);
+            return charInfo.get(_position);
         }
 
         @Override
@@ -48,17 +48,21 @@ public class MainActivity extends ActionBarActivity {
 
         @Override  //Where all the magic happens /////****
         public View getView(int _position, View _convertView, ViewGroup _parent) {
+            Characters charInfo = (Characters) getItem(_position);
 
+            final View results;
             // If we don't have a recycled view, create a new view.
-            if(_convertView == null) {
+            if (_convertView == null) {
                 // Creating the new view.
-                _convertView = LayoutInflater.from(_parent.getContext()).inflate(R.layout.support_simple_spinner_dropdown_item, _parent, false);
+                results = LayoutInflater.from(_parent.getContext()).inflate(R.layout.spinner, _parent, false);
+            } else {
+                results = _convertView;
             }
-
-            return _convertView;
+            TextView names = (TextView) results.findViewById(R.id.spinName);
+            names.setText(charInfo.name);
+            return results;
         }
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,37 +70,13 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         //Custom Object
-        Characters axl = new Characters();
-        axl.name = "Axl Johnson";
-        axl.godName = "Odin";
-        axl.godDesc = "King of the Norse gods \"The All Father\"";
-        axl.power = "Wisdom, Enhanced Reflexes, Increased Stamina to toxins and drugs, Tranformations and Visions.";
+        Characters axl = new Characters("Axl Johnson", "Odin", "King of the Norse gods \"The All Father\"", "Wisdom, Enhanced Reflexes, Increased Stamina to toxins and drugs, Tranformations and Visions.", R.drawable.axl);
+        Characters mike = new Characters("Mike Johnson", "Ullr", "God of the Hunt and of Games", "Enhanced Tacking and Tychokinesis (ability to manipulate the laws of probability to win any game).", R.drawable.mike);
+        Characters anders = new Characters("Anders Johnson", "Bragi", "God of Poetry", "Manipulation by words", R.drawable.anders);
+        Characters ty = new Characters("Tyrone Johnson", "Hod", "God of all things Cold and Dark", "Cryokinesis (ability to freeze things and lower the temperature around him)", R.drawable.ty);
+        Characters olaf = new Characters("Olaf Johnson", "Baldr", "God of rebirth, light and beauty", "Oracle, Longevity/Rebirth, Enhanced Charisma, Enhanced Intelligence, Light Manipulation and Supernatural Beauty", R.drawable.olaf);
 
-        Characters mike = new Characters();
-        mike.name = "Mike Johnson";
-        mike.godName = "Ullr";
-        mike.godDesc = "God of the Hunt and of Games";
-        mike.power = "Enhanced Tacking and Tychokinesis (ability to manipulate the laws of probability to win any game).";
-
-        Characters anders = new Characters();
-        anders.name = "Anders Johnson";
-        anders.godName = "Bragi";
-        anders.godDesc = "God of Poetry";
-        anders.power = "Manipulation by words";
-
-        Characters ty = new Characters();
-        ty.name = "Tyrone Johnson";
-        ty.godName = "Hod";
-        ty.godDesc = "God of all things Cold and Dark";
-        ty.power = "Cryokinesis (ability to freeze things and lower the temperature around him)";
-
-        Characters olaf = new Characters();
-        olaf.name = "Olaf Johnson";
-        olaf.godName = "Baldr";
-        olaf.godDesc = "God of rebirth, light and beauty";
-        olaf.power = "Oracle, Longevity/Rebirth, Enhanced Charisma, Enhanced Intelligence, Light Manipulation and Supernatural Beauty";
-
-        //add to hashmap
+        //add to Hashmap
         charInfo.put(0, axl);
         charInfo.put(1, mike);
         charInfo.put(2, anders);
@@ -108,6 +88,33 @@ public class MainActivity extends ActionBarActivity {
         CustomAdapter adapt = new CustomAdapter(charInfo);
         spinner.setAdapter(adapt);
 
+        //Add spinner event listener
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //grabs actual object that was selected
+                Characters current = (Characters) ((Spinner) findViewById(R.id.mainSpin)).getSelectedItem();
+
+                //initialize detailViews
+                TextView detailName = (TextView) findViewById(R.id.detailName);
+                TextView detailGodName = (TextView) findViewById(R.id.detailGodName);
+                TextView detailGodDesc = (TextView) findViewById(R.id.detailGodDesc);
+                TextView detailPower = (TextView) findViewById(R.id.powerText);
+                ImageView image = (ImageView) findViewById(R.id.imageView);
+
+                //Set Text
+                detailName.setText(current.name);
+                detailGodName.setText("God: " + current.godName);
+                detailGodDesc.setText("Info: " + current.godDesc);
+                detailPower.setText("Powers:  " + current.power);
+                image.setImageResource(current.pic);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
 }
