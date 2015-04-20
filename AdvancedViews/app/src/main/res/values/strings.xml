@@ -4,12 +4,4 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
-    <string-array name="Characters">
-        <item>Elena</item>
-        <item>Damon</item>
-        <item>Stefan</item>
-        <item>Caroline</item>
-        <item>Bonnie</item>
-    </string-array>
-
 </resources>
