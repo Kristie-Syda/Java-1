@@ -66,6 +66,8 @@ public class MainActivity extends ActionBarActivity {
                 }
 
                 TextView names = (TextView) results.findViewById(R.id.spinName);
+                ImageView pic = (ImageView) results.findViewById(R.id.spinPic);
+                pic.setImageResource(charInfo.pic);
                 names.setText(charInfo.name);
 
             } else {
