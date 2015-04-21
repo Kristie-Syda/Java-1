@@ -1,17 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <ListView
-        android:layout_width="294dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:id="@+id/mainList"></ListView>
+        android:id="@+id/mainList"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"></ListView>
 
     <ImageView
         android:layout_width="150dp"
-        android:layout_height="150dp" />
+        android:layout_height="150dp"
+        android:id="@+id/landPic"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
+    <TextView
+        android:layout_width="120dp"
+        android:layout_height="60dp"
+        android:textColor="#000000"
+        android:textSize="24dp"
+        android:id="@+id/landName"
+        android:layout_marginLeft="10dp"
+        android:layout_above="@+id/landGod"
+        android:layout_toLeftOf="@+id/landPic"
+        android:layout_toRightOf="@+id/mainList"
+        android:layout_toEndOf="@+id/mainList" />
 
+    <TextView
+        android:layout_width="120dp"
+        android:layout_height="40dp"
+        android:textColor="#000000"
+        android:textSize="18dp"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/landGod"
+        android:layout_alignBottom="@+id/landPic"
+        android:layout_toRightOf="@+id/mainList"
+        android:layout_toEndOf="@+id/mainList" />
 
-</LinearLayout>
+    <TextView
+        android:layout_width="99dp"
+        android:layout_height="40dp"
+        android:id="@+id/landDesc"
+        android:textColor="#000000"
+        android:textSize="16dp"
+        android:layout_below="@+id/landPic"
+        android:layout_alignRight="@+id/landPic"
+        android:layout_alignEnd="@+id/landPic"
+        android:layout_alignLeft="@+id/landGod"
+        android:layout_alignStart="@+id/landGod"
+        android:layout_above="@+id/landPower" />
+
+    <TextView
+        android:layout_width="120dp"
+        android:layout_height="80dp"
+        android:id="@+id/landPower"
+        android:textColor="#000000"
+        android:textSize="16dp"
+        android:layout_marginLeft="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/mainList"
+        android:layout_toEndOf="@+id/mainList" />
+
+</RelativeLayout>

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -22,6 +23,7 @@ public class MainActivity extends ActionBarActivity {
 
     //variables
     Spinner spinner;
+    ListView list;
 
     //custom adapter to feed spinner
     public class CustomAdapter extends BaseAdapter {
@@ -51,15 +53,34 @@ public class MainActivity extends ActionBarActivity {
             Characters charInfo = (Characters) getItem(_position);
 
             final View results;
-            // If we don't have a recycled view, create a new view.
-            if (_convertView == null) {
-                // Creating the new view.
-                results = LayoutInflater.from(_parent.getContext()).inflate(R.layout.spinner, _parent, false);
+
+            //Checks orientation
+            if(getResources().getConfiguration().orientation == 1) {
+                //Portrait
+                // If we don't have a recycled view, create a new view.
+                if (_convertView == null) {
+                    // Creating the new view in portrait.
+                    results = LayoutInflater.from(_parent.getContext()).inflate(R.layout.spinner, _parent, false);
+                } else {
+                    results = _convertView;
+                }
+
+                TextView names = (TextView) results.findViewById(R.id.spinName);
+                names.setText(charInfo.name);
+
             } else {
-                results = _convertView;
+                //Landscape
+                // If we don't have a recycled view, create a new view.
+                if (_convertView == null) {
+                    // Creating the new view in portrait.
+                    results = LayoutInflater.from(_parent.getContext()).inflate(R.layout.list,_parent,false);
+                } else {
+                    results = _convertView;
+                }
+                    TextView names = (TextView) results.findViewById(R.id.listName);
+                    names.setText(charInfo.name);
             }
-            TextView names = (TextView) results.findViewById(R.id.spinName);
-            names.setText(charInfo.name);
+
             return results;
         }
     }
@@ -70,10 +91,10 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         //Custom Object
-        Characters axl = new Characters("Axl Johnson", "Odin", "King of the Norse gods \"The All Father\"", "Wisdom, Enhanced Reflexes, Increased Stamina to toxins and drugs, Tranformations and Visions.", R.drawable.axl);
-        Characters mike = new Characters("Mike Johnson", "Ullr", "God of the Hunt and of Games", "Enhanced Tacking and Tychokinesis (ability to manipulate the laws of probability to win any game).", R.drawable.mike);
-        Characters anders = new Characters("Anders Johnson", "Bragi", "God of Poetry", "Manipulation by words", R.drawable.anders);
-        Characters ty = new Characters("Tyrone Johnson", "Hod", "God of all things Cold and Dark", "Cryokinesis (ability to freeze things and lower the temperature around him)", R.drawable.ty);
+        Characters axl = new Characters("Axl Johnson", "Odin", "King of the Norse gods \"The All Father\"", "Wisdom, Enhanced Reflexes, Increased Stamina to toxins and drugs, Tranformations and Visions.",R.drawable.axl);
+        Characters mike = new Characters("Mike Johnson", "Ullr", "God of the Hunt and of Games", "Enhanced Tacking and Tychokinesis (ability to manipulate the laws of probability to win any game).",R.drawable.mike);
+        Characters anders = new Characters("Anders Johnson", "Bragi", "God of Poetry", "Manipulation by words",R.drawable.anders);
+        Characters ty = new Characters("Tyrone Johnson", "Hod", "God of all things Cold and Dark", "Cryokinesis (ability to freeze things and lower the temperature around him)",R.drawable.ty);
         Characters olaf = new Characters("Olaf Johnson", "Baldr", "God of rebirth, light and beauty", "Oracle, Longevity/Rebirth, Enhanced Charisma, Enhanced Intelligence, Light Manipulation and Supernatural Beauty", R.drawable.olaf);
 
         //add to Hashmap
@@ -83,38 +104,73 @@ public class MainActivity extends ActionBarActivity {
         charInfo.put(3, ty);
         charInfo.put(4, olaf);
 
-        //Attach Adapter to spinner
-        spinner = (Spinner) findViewById(R.id.mainSpin);
+        //Custom Adapter
         CustomAdapter adapt = new CustomAdapter(charInfo);
-        spinner.setAdapter(adapt);
 
-        //Add spinner event listener
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //grabs actual object that was selected
-                Characters current = (Characters) ((Spinner) findViewById(R.id.mainSpin)).getSelectedItem();
+        //Checks Orientation
+        if(getResources().getConfiguration().orientation == 1){
+            System.out.println("orientation = " + getResources().getConfiguration().orientation);
 
-                //initialize detailViews
-                TextView detailName = (TextView) findViewById(R.id.detailName);
-                TextView detailGodName = (TextView) findViewById(R.id.detailGodName);
-                TextView detailGodDesc = (TextView) findViewById(R.id.detailGodDesc);
-                TextView detailPower = (TextView) findViewById(R.id.powerText);
-                ImageView image = (ImageView) findViewById(R.id.imageView);
+            //Attach Adapter to spinner
+            spinner = (Spinner) findViewById(R.id.mainSpin);
+            spinner.setAdapter(adapt);
 
-                //Set Text
-                detailName.setText(current.name);
-                detailGodName.setText("God: " + current.godName);
-                detailGodDesc.setText("Info: " + current.godDesc);
-                detailPower.setText("Powers:  " + current.power);
-                image.setImageResource(current.pic);
-            }
+            //Add spinner event listener
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    //grabs actual object that was selected
+                    Characters current = (Characters)((Spinner)findViewById(R.id.mainSpin)).getSelectedItem();
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+                    //initialize detailViews
+                    TextView detailName = (TextView) findViewById(R.id.detailName);
+                    TextView detailGodName = (TextView) findViewById(R.id.detailGodName);
+                    TextView detailGodDesc = (TextView) findViewById(R.id.detailGodDesc);
+                    TextView detailPower = (TextView) findViewById(R.id.powerText);
+                    ImageView image = (ImageView) findViewById(R.id.imageView);
 
-            }
-        });
+                    //Set Text
+                    detailName.setText(current.name);
+                    detailGodName.setText("God: "+ current.godName);
+                    detailGodDesc.setText("Info: "+ current.godDesc);
+                    detailPower.setText("Powers:  " + current.power);
+                    image.setImageResource(current.pic);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+
+                }
+            });
+        } else {
+            //Attach adapter to list
+            list = (ListView) findViewById(R.id.mainList);
+            list.setAdapter(adapt);
+
+            //Add list event listener
+            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    //grabs actual object that was selected
+                    Characters current = (Characters)((ListView) findViewById(R.id.mainList)).getItemAtPosition(position);
+
+                    //initialize detailViews
+                    TextView landName = (TextView) findViewById(R.id.landName);
+                    TextView landGodName = (TextView) findViewById(R.id.landGod);
+                    TextView landGodDesc = (TextView) findViewById(R.id.landDesc);
+                    TextView landPower = (TextView) findViewById(R.id.landPower);
+                    ImageView landImage = (ImageView) findViewById(R.id.landPic);
+
+                    //Set Text
+                    landName.setText(current.name);
+                    landGodName.setText("God: "+ current.godName);
+                    landGodDesc.setText("Info: "+ current.godDesc);
+                    landPower.setText("Powers:  " + current.power);
+                    landImage.setImageResource(current.pic);
+                }
+            });
+        }
+
     }
 
 }

@@ -6,9 +6,9 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="20dp"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="5dp"
         android:layout_gravity="center"
-        android:id="@+id/spinName"
+        android:id="@+id/listName"
         android:textSize="16dp"/>
 
 </LinearLayout>
