@@ -70,6 +70,7 @@ public class MainActivity extends ActionBarActivity {
                     results = _convertView;
                 }
 
+                //set views and text/pic
                 TextView names = (TextView) results.findViewById(R.id.spinName);
                 ImageView pic = (ImageView) results.findViewById(R.id.spinPic);
                 pic.setImageResource(charInfo.pic);
@@ -84,8 +85,12 @@ public class MainActivity extends ActionBarActivity {
                 } else {
                     results = _convertView;
                 }
+
+                    //Set views and text/pic
                     TextView names = (TextView) results.findViewById(R.id.listName);
                     names.setText(charInfo.name);
+                    ImageView pic = (ImageView) results.findViewById(R.id.listImage);
+                    pic.setImageResource(charInfo.pic);
             }
 
             return results;
@@ -116,6 +121,7 @@ public class MainActivity extends ActionBarActivity {
 
         //Checks Orientation
         if(getResources().getConfiguration().orientation == 1){
+            //Portrait
             System.out.println("orientation = " + getResources().getConfiguration().orientation);
 
             //Attach Adapter to spinner
@@ -150,6 +156,9 @@ public class MainActivity extends ActionBarActivity {
                 }
             });
         } else {
+            //Landscape
+            System.out.println("orientation = " + getResources().getConfiguration().orientation);
+
             //Attach adapter to list
             list = (ListView) findViewById(R.id.mainList);
             list.setAdapter(adapt);
