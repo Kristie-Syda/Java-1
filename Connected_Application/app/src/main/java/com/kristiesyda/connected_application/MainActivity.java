@@ -1,5 +1,6 @@
 package com.kristiesyda.connected_application;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -27,58 +28,71 @@ import org.json.JSONObject;
 public class MainActivity extends ActionBarActivity {
 
     String searchText;
+    EditText text;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        text = (EditText) findViewById(R.id.mainText);
 
         Button button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                EditText text = (EditText) findViewById(R.id.mainText);
-                searchText = text.getText().toString();
-                try{
-                    String baseUrl = "https://api.themoviedb.org/3/search/movie?api_key=62dbead3af716cd1edf3092f3be3bf5e&query=";
-                    String queryUrl = baseUrl + searchText;
-                    URL url = new URL(queryUrl);
-                    System.out.println("working url = " + url);
-                    new getData().execute(url);
+                if(CustomHelper.isConnected(MainActivity.this)){
+                    searchText = text.getText().toString();
+                    try{
+                        String baseUrl = "https://api.themoviedb.org/3/search/movie?api_key=62dbead3af716cd1edf3092f3be3bf5e&query=";
+                        String queryUrl = baseUrl + searchText;
+                        URL url = new URL(queryUrl);
+                        System.out.println("working url = " + url);
+                        new getData().execute(url);
 
-                } catch (Exception e){
-                    System.out.println("catch url");
+                    } catch (Exception e){
+                         System.out.println("catch url");
+                    }
+
+                } else {
+
+                    System.out.println("No network connection");
                 }
+
             }
         });
-
-//        // Getting our connectivity manager.
-//        ConnectivityManager mgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-//        // Getting our active network information.
-//        NetworkInfo netInfo = mgr.getActiveNetworkInfo();
-//        //checks connection.
-//        if(netInfo != null) {
-//            CharSequence text;
-//            if (netInfo.isConnected()) {
-//                // We have a valid data connection
-//                text = "Connected";
-//            }
-//            else {
-//                text = "No Connection";
-//            }
-//            Context context = getApplicationContext();
-//            int duration = Toast.LENGTH_SHORT;
-//            Toast toast = Toast.makeText(context, text, duration);
-//            toast.show();
-//        }
 
     }
 
 
     public class getData extends AsyncTask<URL,Integer,JSONObject> {
 
+        ProgressDialog mDialog = new ProgressDialog(MainActivity.this);
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            mDialog.setMessage("Loading...");
+            mDialog.setIcon(R.mipmap.ic_launcher);
+            mDialog.setTitle("Network Check");
+            mDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            mDialog.show();
+        }
+
         @Override
         protected JSONObject doInBackground(URL... urls) {
+
+            try{
+                String baseUrl = "https://api.themoviedb.org/3/search/movie?api_key=62dbead3af716cd1edf3092f3be3bf5e&query=";
+                String queryUrl = baseUrl + searchText;
+                URL url = new URL(queryUrl);
+                System.out.println("working url = " + url);
+                new getData().execute(url);
+
+            } catch (Exception e){
+                System.out.println("catch url");
+            }
 
             String jsonString = "";
             for (URL url : urls){
@@ -110,6 +124,10 @@ public class MainActivity extends ActionBarActivity {
         @Override
         protected void onPostExecute(JSONObject jsonObject) {
             super.onPostExecute(jsonObject);
+
+
+
+            mDialog.cancel();
         }
     }
 

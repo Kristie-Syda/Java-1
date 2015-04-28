@@ -32,9 +32,8 @@ public class movie {
             mVotes = movieData.getInt("vote_count");
 
         }catch(Exception e){
-            System.out.println("Error trying to update display");
+            System.out.println("Error trying to make movie object");
         }
     }
-
 
 }
