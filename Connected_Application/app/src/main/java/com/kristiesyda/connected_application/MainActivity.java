@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import java.io.BufferedInputStream;
@@ -17,24 +18,32 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
+
 import org.apache.commons.io.IOUtils;
 import org.json.JSONObject;
 
 
 public class MainActivity extends ActionBarActivity {
 
+    String searchText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         Button button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EditText text = (EditText) findViewById(R.id.mainText);
+                searchText = text.getText().toString();
                 try{
-                    URL url = new URL("http://api.themoviedb.org/3/discover/movie?api_key=62dbead3af716cd1edf3092f3be3bf5e");
-                    System.out.println("working url");
+                    String baseUrl = "https://api.themoviedb.org/3/search/movie?api_key=62dbead3af716cd1edf3092f3be3bf5e&query=";
+                    String queryUrl = baseUrl + searchText;
+                    URL url = new URL(queryUrl);
+                    System.out.println("working url = " + url);
                     new getData().execute(url);
 
                 } catch (Exception e){
@@ -83,7 +92,7 @@ public class MainActivity extends ActionBarActivity {
                 }
             }
 
-            System.out.println("Received date =" + jsonString);
+            System.out.println("Received data =" + jsonString);
 
             JSONObject apiData;
 
@@ -95,14 +104,6 @@ public class MainActivity extends ActionBarActivity {
                 apiData = null;
             }
 
-            try{
-
-                apiData = (apiData != null)? apiData.getJSONObject("page").getJSONObject("results") : null;
-                System.out.println("Data = " + apiData.toString());
-            } catch(Exception e){
-                System.out.println("Could not parse data");
-
-            }
             return apiData;
         }
 
