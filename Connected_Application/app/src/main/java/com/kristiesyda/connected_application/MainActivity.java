@@ -18,6 +18,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import org.apache.commons.io.IOUtils;
+import org.json.JSONObject;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -32,7 +33,12 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View v) {
                 try{
-                    URL url = new URL("");
+                    URL url = new URL("http://api.themoviedb.org/3/discover/movie?api_key=62dbead3af716cd1edf3092f3be3bf5e");
+                    System.out.println("working url");
+                    new getData().execute(url);
+
+                } catch (Exception e){
+                    System.out.println("catch url");
                 }
             }
         });
@@ -57,49 +63,54 @@ public class MainActivity extends ActionBarActivity {
 //            toast.show();
 //        }
 
-        // The URL string that points to our web resource.
-        String urlString = "https://api.themoviedb.org/3/movie/550?api_key=62dbead3af716cd1edf3092f3be3bf5e";
-        URL url = null;
-        try {
-            url = new URL(urlString);
-            // Establish a connection to the resource at the URL.
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            // Setting connection properties.
-            connection.setRequestMethod("GET");
-            connection.setConnectTimeout(10000); // 10 seconds
-            connection.setReadTimeout(10000); // 10 seconds
-            // Refreshing the connection.
-            connection.connect();
-            // Optionally check the status code. Status 200 means everything went OK.
-            int statusCode = connection.getResponseCode();
-            System.out.println(statusCode);
-            // Getting the InputStream with the data from our resource.
-
-            // Reading data from the InputStream using the Apache library.
-            String resourceData = IOUtils.toString(connection.getInputStream());
-            System.out.println(resourceData);
-
-            connection.disconnect();
-            // The resourceData string should now have our data.
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-
     }
 
 
-//    public class MyTask extends AsyncTask<String,String,String> {
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//        }
-//
-//        @Override
-//        protected String doInBackground(String... params) {
-//            return null;
-//        }
-//    }
+    public class getData extends AsyncTask<URL,Integer,JSONObject> {
+
+        @Override
+        protected JSONObject doInBackground(URL... urls) {
+
+            String jsonString = "";
+            for (URL url : urls){
+                try {
+
+                    URLConnection con = url.openConnection();
+                    jsonString = IOUtils.toString(con.getInputStream());
+                    break;
+                } catch (Exception e) {
+                    System.out.println("no url connection");
+                }
+            }
+
+            System.out.println("Received date =" + jsonString);
+
+            JSONObject apiData;
+
+            try{
+                apiData = new JSONObject(jsonString);
+
+            } catch(Exception e){
+                System.out.println("No Data");
+                apiData = null;
+            }
+
+            try{
+
+                apiData = (apiData != null)? apiData.getJSONObject("page").getJSONObject("results") : null;
+                System.out.println("Data = " + apiData.toString());
+            } catch(Exception e){
+                System.out.println("Could not parse data");
+
+            }
+            return apiData;
+        }
+
+        @Override
+        protected void onPostExecute(JSONObject jsonObject) {
+            super.onPostExecute(jsonObject);
+        }
+    }
+
 
 }
