@@ -9,7 +9,7 @@
 
     <Spinner
         android:id="@+id/mainSpin"
-        android:layout_width="250dp"
+        android:layout_width="255dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"

@@ -109,7 +109,7 @@ public class MainActivity extends ActionBarActivity {
         Characters ty = new Characters("Tyrone Johnson", "Hod", "God of all things Cold and Dark", "Cryokinesis (ability to freeze things and lower the temperature around him)",R.drawable.ty);
         Characters olaf = new Characters("Olaf Johnson", "Baldr", "God of rebirth, light and beauty", "Oracle, Longevity/Rebirth, Enhanced Charisma, Enhanced Intelligence, Light Manipulation and Supernatural Beauty", R.drawable.olaf);
 
-        //add to Hashmap
+        //add to HashMap
         charInfo.put(0, axl);
         charInfo.put(1, mike);
         charInfo.put(2, anders);
@@ -122,7 +122,7 @@ public class MainActivity extends ActionBarActivity {
         //Checks Orientation
         if(getResources().getConfiguration().orientation == 1){
             //Portrait
-            System.out.println("orientation = " + getResources().getConfiguration().orientation);
+           // System.out.println("orientation = " + getResources().getConfiguration().orientation);
 
             //Attach Adapter to spinner
             spinner = (Spinner) findViewById(R.id.mainSpin);
