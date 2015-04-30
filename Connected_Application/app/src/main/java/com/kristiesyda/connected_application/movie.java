@@ -9,11 +9,11 @@ import org.json.JSONObject;
  */
 public class movie {
 
-    private String mTitle;
-    private String mPoster;
-    private String mReleased;
-    private Integer mVotes;
 
+    public String mTitle;
+    public String mPoster;
+    public String mReleased;
+    public Integer mVotes;
 
 
     public movie(String title, String poster, String released, Integer votes){
@@ -35,5 +35,4 @@ public class movie {
             System.out.println("Error trying to make movie object");
         }
     }
-
 }
