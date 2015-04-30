@@ -4,7 +4,9 @@ package com.kristiesyda.connected_application;
  * Created by Kristie Syda.
  */
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -26,6 +28,7 @@ import org.json.JSONObject;
 public class MainActivity extends ActionBarActivity {
 
     //variables
+    Context context;
     EditText text;
     URL searchUrl;
     ListView list;
@@ -47,14 +50,34 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
                 //Checks connection
                 if (CustomHelper.isConnected(MainActivity.this)) {
-                    //grabs user input & makes the right url
-                    searchUrl = getURL(text.getText().toString());
-                    //Runs Async
-                    new getData().execute(searchUrl);
-                    //Add toast
+
+                    //Internet Connection Toast
+                    context = getApplicationContext();
+                    CharSequence toastText = "Internet Connection";
+                    int duration = Toast.LENGTH_LONG;
+                    Toast toast = Toast.makeText(context, toastText, duration);
+                    toast.show();
+
+                    //Checks empty text box
+                    if(text.getText().length() == 0){
+                        AlertDialog.Builder emptyAlert = new AlertDialog.Builder(MainActivity.this);
+                        emptyAlert.setTitle("Alert");
+                        emptyAlert.setMessage("Please enter a movie");
+                        emptyAlert.setPositiveButton("Okay", null);
+                        emptyAlert.show();
+                    }else {
+                        //grabs user input & makes the right url
+                        searchUrl = getURL(text.getText().toString());
+                        //Runs Async
+                        new getData().execute(searchUrl);
+                    }
                 } else {
-                    //Add toast
-                    System.out.println("No network connection");
+                    //No Connection Toast
+                    context = getApplicationContext();
+                    CharSequence toastText = "No Internet Connection";
+                    int duration = Toast.LENGTH_LONG;
+                    Toast toast = Toast.makeText(context, toastText, duration);
+                    toast.show();
                 }
             }
         });
@@ -101,7 +124,6 @@ public class MainActivity extends ActionBarActivity {
             String jsonString = "";
             for (URL url : urls) {
                 try {
-
                     URLConnection con = url.openConnection();
                     jsonString = IOUtils.toString(con.getInputStream());
                     break;
@@ -124,7 +146,7 @@ public class MainActivity extends ActionBarActivity {
                 for (int i = 0; i < apiArray.length(); i++) {
                     //grab every object out of Array
                     single = apiArray.getJSONObject(i);
-                    System.out.println("parse data " +single);
+
                     //run every object out through custom object
                     movie singleMovie = new movie(single);
 
@@ -141,8 +163,8 @@ public class MainActivity extends ActionBarActivity {
         protected void onPostExecute(JSONArray jsonArray) {
             super.onPostExecute(jsonArray);
 
-            CustomAdapter adapt = new CustomAdapter(MovieInfo);
-            list.setAdapter(adapt);
+                CustomAdapter adapt = new CustomAdapter(MovieInfo);
+                list.setAdapter(adapt);
 
             //Cancels Progress dialog
             mDialog.cancel();

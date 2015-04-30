@@ -1,9 +1,11 @@
 package com.kristiesyda.connected_application;
 
-import android.content.Context;
+/**
+ * Created by Kristie Syda on 4/28/15.
+ */
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,13 +17,8 @@ import android.widget.TextView;
 
 
 import java.io.InputStream;
-import java.net.URL;
 import java.util.HashMap;
 
-
-/**
- * Created by Kristie Syda on 4/28/15.
- */
 
 public class CustomAdapter extends BaseAdapter{
 
@@ -49,7 +46,7 @@ public class CustomAdapter extends BaseAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         movie movieInfo = (movie) getItem(position);
-
+        String url;
         final View results;
 
         if(convertView == null){
@@ -62,7 +59,6 @@ public class CustomAdapter extends BaseAdapter{
         TextView title = (TextView) results.findViewById(R.id.listTitle);
         TextView vote = (TextView) results.findViewById(R.id.listVote);
         TextView release = (TextView) results.findViewById(R.id.listRelease);
-        //ImageView image = (ImageView) results.findViewById(R.id.listImage);
 
         title.setText(movieInfo.mTitle);
         vote.setText("Vote Count: "+ movieInfo.mVotes.toString());
@@ -73,23 +69,22 @@ public class CustomAdapter extends BaseAdapter{
             release.setText("Released: " + movieInfo.mReleased);
         }
 
-        if(movieInfo.mPoster.length() == 0)
-        {
-            //no pic
+        if(movieInfo.mPoster == "null"){
+            url = ("http://ozarktech.com/wp-content/uploads/2014/05/image-not-available-grid.jpg");
         } else {
+            url = ("http://image.tmdb.org/t/p/w500"+ movieInfo.mPoster);
+        }
 
             try{
-                String url = ("http://image.tmdb.org/t/p/w500"+ movieInfo.mPoster);
                 new DownloadImageTask((ImageView) results.findViewById(R.id.listImage))
                         .execute(url);
             } catch (Exception e){
 
             }
 
-        }
         return results;
     }
-    
+
     //Image Async -- http://stackoverflow.com/questions/5776851/load-image-from-url --
     public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
         ImageView bmImage;
