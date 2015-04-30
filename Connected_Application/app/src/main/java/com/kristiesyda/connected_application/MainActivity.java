@@ -30,6 +30,7 @@ public class MainActivity extends ActionBarActivity {
     //variables
     Context context;
     EditText text;
+    Button button;
     URL searchUrl;
     ListView list;
     public static HashMap<Integer, movie> MovieInfo;
@@ -43,8 +44,8 @@ public class MainActivity extends ActionBarActivity {
         MovieInfo = new HashMap<Integer, movie>();
         text = (EditText) findViewById(R.id.mainText);
         list = (ListView) findViewById(R.id.mainList);
+        button = (Button) findViewById(R.id.button);
 
-        Button button = (Button) findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,11 +87,14 @@ public class MainActivity extends ActionBarActivity {
     //Makes url based on user input
     public URL getURL(String search) {
         URL results;
+
+        //changes spaces to %20
+        String Fixed = search.replaceAll(" ","%20");
+
         try {
             String baseUrl = "https://api.themoviedb.org/3/search/movie?api_key=62dbead3af716cd1edf3092f3be3bf5e&query=";
-            String queryUrl = baseUrl + search;
+            String queryUrl = baseUrl + Fixed;
             URL url = new URL(queryUrl);
-
             results = url;
         } catch (Exception e) {
             results = null;
@@ -172,3 +176,4 @@ public class MainActivity extends ActionBarActivity {
 
     }
 }
+

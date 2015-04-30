@@ -15,7 +15,8 @@
         android:background="#000000"
         android:textColor="#ffffff"
         android:textAlignment="center"
-        android:hint="Enter Movie"/>
+        android:hint="Enter Movie"
+        android:textColorHint="#cccccc"/>
 
     <Button
         android:layout_width="wrap_content"
