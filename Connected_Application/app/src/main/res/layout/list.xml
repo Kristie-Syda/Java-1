@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -7,31 +7,47 @@
         android:id="@+id/listImage"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:background="#ffcccccc"
+        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:layout_margin="10dp"
-        android:background="#ffcccccc" />
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"/>
 
     <TextView
         android:id="@+id/listTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/listImage"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:text="Movie Title"
+        android:textSize="20sp"
+        android:textStyle="bold"
         android:layout_toRightOf="@+id/listImage"
-        android:text="A List item title"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:layout_toEndOf="@+id/listImage"
+        android:layout_marginLeft="39dp"
+        android:layout_marginStart="39dp" />
 
     <TextView
-        android:id="@+id/listDescription"
+        android:id="@+id/listRelease"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/listTitle"
-        android:layout_marginTop="5dp"
-        android:maxLines="4"
-        android:layout_toRightOf="@+id/listImage"
-        android:text="The List item description"
-        android:textSize="14sp" />
+        android:text="Released:"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_above="@+id/listVote"
+        android:layout_alignLeft="@+id/listTitle"
+        android:layout_alignStart="@+id/listTitle"
+        android:textAlignment="center"/>
+    <TextView
+        android:id="@+id/listVote"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Vote count:"
+        android:textSize="14sp"
+        android:layout_alignBottom="@+id/listImage"
+        android:layout_alignLeft="@+id/listTitle"
+        android:layout_alignStart="@+id/listTitle"
+        android:layout_marginLeft="50dp"
+        android:layout_marginStart="50dp" />
 
-
-</LinearLayout>
+</RelativeLayout>

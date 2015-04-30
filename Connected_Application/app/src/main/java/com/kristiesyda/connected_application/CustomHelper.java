@@ -5,7 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 /**
- * Created by kristiesyda on 4/28/15.
+ * Created by Kristie Syda on 4/28/15.
  */
 public class CustomHelper {
 

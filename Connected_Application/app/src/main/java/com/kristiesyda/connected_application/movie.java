@@ -1,20 +1,17 @@
 package com.kristiesyda.connected_application;
 
-import android.media.Image;
-
 import org.json.JSONObject;
 
 /**
- * Created by kristiesyda on 4/28/15.
+ * Created by Kristie Syda on 4/28/15.
  */
-public class movie {
 
+public class movie {
 
     public String mTitle;
     public String mPoster;
     public String mReleased;
     public Integer mVotes;
-
 
     public movie(String title, String poster, String released, Integer votes){
 
